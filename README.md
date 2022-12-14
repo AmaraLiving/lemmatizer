@@ -1,6 +1,6 @@
 # Lemmatizer
 
-[![Circle CI](https://circleci.com/gh/writecrow/lemmatizer.svg?style=shield)](https://circleci.com/gh/writecrow/lemmatizer)
+[![Build](https://github.com/AmaraLiving/lemmatizer/actions/workflows/ci-build.yml/badge.svg)](https://github.com/AmaraLiving/lemmatizer/actions/workflows/ci-build.yml)
 
 A PHP library for getting a lemma from a given word, and getting a list of words
 that map to a lemma. This does NOT support part of speech specification.

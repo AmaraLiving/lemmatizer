@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.1"
+          coverage: none
+      - name: Prepare composer cache
+        id: composer-cache
+        run: |
+          COMPOSER_CACHE_DIR=$(composer config cache-files-dir)
+          mkdir -p ${COMPOSER_CACHE_DIR}
+          echo "dir=${COMPOSER_CACHE_DIR}" >> ${GITHUB_OUTPUT}
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install dependencies
+        run: composer install --no-interaction
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit
